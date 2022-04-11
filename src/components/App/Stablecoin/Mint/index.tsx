@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAppDispatch } from 'state'
 import styled from 'styled-components'
 import find from 'lodash/find'
@@ -11,25 +11,22 @@ import useMintPage from 'hooks/useMintPage'
 import { useWalletModalToggle } from 'state/application/hooks'
 import { useDeiStatus, useMintingFee, useMintPaused } from 'state/dei/hooks'
 import { DeiStatus, DeiSupportedChains } from 'state/dei/reducer'
-import { useMintState, setMintState, setAttemptingTxn, setShowReview } from 'state/mint/reducer'
+import { setAttemptingTxn, setMintState, setShowReview, useMintState } from 'state/mint/reducer'
 
 import { IToken } from 'utils/token'
 
 import { CollateralPool, MintProxy } from 'constants/addresses'
 import { MINT__INPUTS, MINT__OUTPUTS } from 'constants/inputs'
-
-import { DeiInfo } from 'components/Icons/DeiInfo'
-import { Statistics } from 'components/App/Stablecoin'
+import { DefaultWrapper as MintWrapper } from 'components/App/Stablecoin'
 import { ArrowBubble, DotFlashing, IconWrapper } from 'components/Icons'
 import { PrimaryButton } from 'components/Button'
 import TransactionSettings from 'components/TransactionSettings'
 import ConfirmMintModal from 'components/TransactionConfirmationModal/ConfirmMint'
-import { TooltipContainer, MouseoverTooltipContent } from 'components/Tooltip'
+import { TooltipContainer } from 'components/Tooltip'
 
 import { RowBetween } from 'components/Row'
 import InputBox from '../InputBox'
 import NetworkSelect from '../NetworkSelect'
-import { DefaultWrapper as MintWrapper } from 'components/App/Stablecoin'
 
 const ToggleRow = styled.div`
   position: relative;
@@ -99,13 +96,14 @@ const FeeWrapper = styled.div`
   width: 260px;
   justify-content: space-between;
   padding: 0px 10px;
+
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 130px;
   `}
-
   & > * {
     font-size: 0.8rem;
     color: ${({ theme }) => theme.text2};
+
     &:first-child {
       color: ${({ theme }) => theme.text3};
     }
@@ -364,7 +362,7 @@ export default function Mint() {
   }
 
   return (
-    <MintWrapper>
+    <MintWrapper id={'mint-wrapper'}>
       <ToggleRow>
         <NetworkSelect chains={DeiSupportedChains} />
         <TransactionSettings style={{ marginLeft: '20px' }} />
